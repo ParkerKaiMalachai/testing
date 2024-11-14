@@ -6,6 +6,7 @@ require 'app/autoload.php';
 
 use PHPUnit\Framework\TestCase;
 use src\classes\Product;
+use src\classes\Data;
 
 class unitTest extends TestCase
 {
@@ -15,23 +16,17 @@ class unitTest extends TestCase
      */
     public function testGetProfit(): void
     {
-        $mock = Mockery::mock('Product');
-        $mock->shouldReceive('getProfit')->andReturn(50);
+        $mock = Mockery::mock(Data::class);
+        $mock->shouldReceive('getData')->andReturn([
+            1 => [
+                'name' => 'product',
+                'price' => 200,
+                'quantity' => 30,
+                'spoiledQuantity' => 15
+            ]
+        ]);
         $product = new Product($mock);
 
-        $this->assertSame(50, $product->getProfit(5, 10));
-    }
-
-    /*
-     * @runInSeparateProcess
-     * @preserveGlobalState disabled
-     */
-    public function testGetDecrease(): void
-    {
-        $mock = Mockery::mock('Product');
-        $mock->shouldReceive('getDecrease')->andReturn(18);
-        $product = new Product($mock);
-
-        $this->assertSame(18, $product->getDecrease(3, 6));
+        $this->assertSame(200 * 30, $product->getProfit(1));
     }
 }

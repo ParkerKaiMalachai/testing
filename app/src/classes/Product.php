@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace src\classes;
 
+use src\classes\Data;
+
 class Product
 {
-    public function getProfit(int $price, int $quantity): int
+    public array $data;
+
+    public function __construct(Data $data)
     {
-        return $price * $quantity;
+        $this->data = $data->getData();
     }
 
-    public function getDecrease(int $price, int $spoiledQuantity): int
+    public function getProfit(int $id): float
     {
-        return $price * $spoiledQuantity;
+        $price = $this->data[$id]['price'];
+        $quantity = $this->data[$id]['quantity'];
+        return $price * $quantity;
     }
 }
